@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>jQuery test page</title>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<script>
+// javascript here (jQuery)
+var mode = 'hidden'
+$(document).ready(function() {
+$("#changeText").click(function() {
+	if (mode == 'unhidden') 
+	(
+	 mode = 'hidden' 
+	 )
+	else 
+	(
+	 mode = 'unhidden' 
+	 )
+$("#textBox").html(mode);
+});
+});
+</script>
+
+<body>
+<button id="changeText">Change my text</button>
+<br />
+<div id="textBox">This text will be changed to something else</div>
+</body>
+</html>
+
+

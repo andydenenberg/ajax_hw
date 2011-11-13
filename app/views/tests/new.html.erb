@@ -1,0 +1,118 @@
+<script type="text/javascript">
+
+// http://www.alfajango.com/blog/rails-3-remote-links-and-forms/
+
+$(document).ready(function(){
+
+  $('#create_test_form')
+    .bind("ajax:beforeSend", function(evt, xhr, settings){
+
+    })
+    .bind("ajax:success", function(evt, data, status, xhr){
+      var $form = $(this);
+
+      // Reset fields and any validation errors, so form can be used again, but leave hidden_field values intact.
+      $form.find('textarea,input[type="text"],input[type="file"]').val("");
+      $form.find('div.validation-error').empty();
+
+      // Insert response partial into page below the form.
+      $('#tests').append(xhr.responseText);
+//      $('#tests').replaceWith(xhr.responseText);
+
+    })
+    .bind('ajax:complete', function(evt, xhr, status){
+
+	HowManySelected() ;
+
+
+    })
+    .bind("ajax:error", function(evt, xhr, status, error){
+      var $form = $(this),
+          errors,
+          errorText;
+
+      try {
+        // Populate errorText with the comment errors
+        errors = $.parseJSON(xhr.responseText);
+      } catch(err) {
+        // If the responseText is not valid JSON (like if a 500 exception was thrown), populate errors with a generic error message.
+        errors = {message: "Please reload the page and try again"};
+      }
+
+      // Build an unordered list from the list of errors
+      errorText = "There were errors with the submission: \n<ul>";
+
+      for ( error in errors ) {
+        errorText += "<li>" + error + ': ' + errors[error] + "</li> ";
+      }
+
+      errorText += "</ul>";
+
+      // Insert error list into form
+      $form.find('div.validation-error').html(errorText);
+    });
+
+});
+
+var showmode = 'hidden'
+
+$(document).ready(function(){
+	$("#optional1").hide();
+	showmode = "hidden" ;
+	HowManySelected() ;
+})
+
+	function MoreOrLess() {
+		if (showmode == 'hidden') {	
+			$("#optional1").show() ;
+			showmode = 'unhide'   ;
+			$("#changeText").html('Hide'); }
+		else {
+			$("#optional1").hide() 
+			showmode = 'hidden'  
+			$("#changeText").html('Show'); }
+	}
+
+// <a href="more" onClick="HowManySelected(); return false">More</a> 
+	function HowManySelected() {
+	   resultsUser = 'All'
+	  $.get('<%= show_marked_tests_path %>', 
+	        { user:resultsUser }, 
+	        function(data) {
+	          $("#results").html(data);
+	        });
+	}
+		
+</script>
+
+<h1>Add a new record</h1>
+<div id="results"> </div><br>
+
+<%= form_for @test, :remote => true, :html => { :'data-type' => 'html', :id => 'create_test_form' } do |f| %>
+
+Required1 <%= f.text_field :required1, %><br>
+Required2 <%= f.text_field :required2, %><br>
+<br>
+Marked <%= f.check_box :marked %><br>
+<br>
+
+<button id="changeText" onClick="MoreOrLess(); return false" value="test">Show</button> optional fields<br>
+<br>
+
+	<div id="optional1">
+		Optional1 <%= f.text_field :optional1, %><br>
+		Optional2 <%= f.text_field :optional2, %></div><br>
+
+	<div class="validation-error"></div>
+	
+  	<%= f.submit %>
+<% end %>
+
+<br>
+<%= link_to 'Index', tests_path %> 
+<br>
+
+<div id="tests"> </div>
+
+
+

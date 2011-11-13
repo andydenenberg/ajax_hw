@@ -1,0 +1,71 @@
+<script type="text/javascript">
+
+$(document).ready(function(){
+	HowManySelected() ;
+	processChange();
+})
+
+	function HowManySelected() {
+	   resultsUser = 'All'
+	  $.get('<%= show_marked_tests_path %>', 
+	        { user:resultsUser }, 
+	        function(data) {
+	          $("#results").html(data);
+			  $("#results").css("color","black");
+	        });
+	}
+
+	var row = 'tr'
+	
+	$(document).ready(function() {
+		$(".delete_test").live("ajax:success", function() {
+			$(this).closest(row).fadeOut();
+			HowManySelected() ;
+			$("#results").css("color","red");			
+		});
+	});
+
+function processChange( ) {
+    // make a GET call and replace the contents
+   IsitMarked = document.getElementById('marker').value ;
+   OptionalFields = document.getElementById('optional').value ;
+    $.get('<%= inc_search_tests_path %>', 
+          { marked:IsitMarked, optional:OptionalFields }, 
+        
+          function(data) {
+            $("#table").html(data);
+          });
+  }
+
+
+$(function() {
+				
+
+  $("#marker").change(function() {
+     // alert("Menu changed");
+     processChange( ) ;
+  });			
+
+  $("#optional").change(function() {
+     // alert("Menu changed");
+     processChange( ) ;
+  });
+
+});			
+			
+</script>
+
+
+<h1>Records</h1>
+<div id="results"> </div>
+<p>
+Show <%= select_tag 'marker', options_for_select( [ "All", 'Marked', 'Unmarked' ], onClick="processChange(); return false" ) %> records | 
+     <%= select_tag 'optional', options_for_select( [ "Do not", 'Do' ], onClick="processChange(); return false" ) %> show optional fields
+</p>
+<div id="table"> <%= render :partial => 'index_all', :layout => false %>
+
+</div>
+
+<br />
+
+<%= link_to 'New Record', new_test_path %>

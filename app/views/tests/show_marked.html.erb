@@ -1,0 +1,58 @@
+<script type="text/javascript">
+
+//function processChange( ) {
+function CheckBoxSelected() {
+  // make a GET call and replace the contents
+// resultsUser = document.getElementById('user').value ;
+// was stored in select_tag user
+   resultsUser = 'All'
+  $.get('<%= show_marked_tests_path %>', 
+        { user:resultsUser }, 
+        function(data) {
+          $("#results").html(data);
+        });
+}
+
+function MoreSelected() {
+   resultsUser = 'All'
+  $.get('<%= show_marked_tests_path %>', 
+        { user:resultsUser }, 
+        function(data) {
+          $("#results").html(data);
+        });
+}
+
+
+</script>
+
+<%= form_tag ('javascript:void(0)')  do %>
+
+<h1>Listing tests</h1>
+<table>
+  <tr>
+    <th>Marked</th>
+    <th>Db_Id</th>
+    <th>Required1</th>
+	<th>Required2</th>
+	<th>Optional</th>
+	
+    <th><a href="more" onClick="MoreSelected(); return false">More</a></th>
+  </tr>
+
+<% @tests.each do |test| %>
+  <tr>
+    <td><%= check_box_tag 'checkbox' , test.id, test.marked , { :onclick => "CheckBoxSelected();" } %></td>
+    <td><%= test.id %></td>
+    <td><%= test.required1 %></td>
+	<td><%= test.required2 %></td>
+	<td><%= test.optional1 %></td>
+	<td> </td>
+  </tr>
+<% end %>
+</table>
+
+<% end %>
+<div id="results">
+</div>
+
+<%= link_to 'Index', tests_path %> | <%= link_to 'New Test', new_test_path %>

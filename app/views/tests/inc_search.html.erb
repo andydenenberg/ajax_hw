@@ -1,0 +1,30 @@
+<script type="text/javascript">
+$(function() {
+  // when the #search field changes
+
+  function processChange( ) {
+    // make a GET call and replace the contents
+   IsitMarked = document.getElementById('marker').value ;
+    $.get('<%= inc_search_tests_path %>', 
+          { marked:IsitMarked }, 
+          function(data) {
+            $("#results").html(data);
+          });
+  }
+
+  $("#marker").change(function() {
+      //    alert("Menu changed");
+     processChange( ) ;
+  });
+
+});
+</script>
+
+<h1>Select Dataset</h1>
+<p>Search Criteria: <%= select_tag 'marker', options_for_select( [ "All", 'Marked', 'Unmarked' ]) %></p>
+
+<div id="results"> </div>
+<br>
+<br>
+<%= link_to 'New Test', new_test_path %>
+<%= link_to 'Index', tests_path %>

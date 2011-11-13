@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  div { width:70px; height:40px; background:#ee77ff; margin:5px; float:left; }
+  span { display:block; clear:left; color:red; }
+  .starthidden { display:none; }
+  </style>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+  <span></span>
+  <div></div>
+  <div style="display:none;">Hider!</div>
+  <div></div>
+
+  <div class="starthidden">Hider!</div>
+  <div></div>
+  <form>
+    <input type="hidden" />
+
+    <input type="hidden" />
+    <input type="hidden" />
+  </form>
+  <span>
+
+  </span>
+<script>
+// in some browsers :hidden includes head, title, script, etc...
+var hiddenEls = $("body").find(":hidden").not("script");
+
+$("span:first").text("Found " + hiddenEls.length + " hidden elements total.");
+$("div:hidden").show(3000);
+$("span:last").text("Found " + $("input:hidden").length + " hidden inputs.");
+</script>
+
+</body>
+</html>

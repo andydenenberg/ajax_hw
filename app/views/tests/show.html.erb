@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+Required1:
+<%= @test.required1 %>
+<br>
+Required2:
+<%= @test.required2 %>
+<br>
+Optional1:
+<%= @test.optional1 %>
+<br>
+Optional2:
+<%= @test.optional2 %>
+<br>
+Marked:
+<%= @test.marked %>
+<br>
+<br>
+
+
+<%= link_to 'Edit', edit_test_path(@test) %> |
+<%= link_to 'Back', tests_path %>

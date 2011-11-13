@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  required1: MyString
+  required2: MyString
+  optional1: MyString
+  optional2: MyString
+  marked: false
+
+two:
+  required1: MyString
+  required2: MyString
+  optional1: MyString
+  optional2: MyString
+  marked: false

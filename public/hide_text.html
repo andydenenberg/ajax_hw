@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  </style>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<script>
+$(document).ready(function(){
+
+$("#select_fruit").change(show_hide_other);
+$("#other_fruit").hide();
+
+})
+
+function show_hide_other()
+{ 
+   var selected_fruit = $("#select_fruit").val();
+   if(selected_fruit == "")
+   { 
+        $("#other_fruit").show();
+   }
+   else
+   {
+         $("#other_fruit").hide();
+    }
+}
+</script>
+
+
+<body>
+ <select id="select_fruit">
+  <option value="Apple">Apple</option>
+  <option value="Mango">Mango</option>
+  <option value="Orange">Orange</option>
+  <option value="">Others</option>
+ </select>
+ <input type="text" id="other_fruit"/>
+ </body>
+</html>
